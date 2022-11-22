@@ -9,6 +9,8 @@ exports["default"] = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
@@ -16,6 +18,10 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
 var _vehicles = _interopRequireDefault(require("../routes/vehicles.routes"));
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 var mobile;
 var carsDetails;
@@ -217,6 +223,14 @@ var carsDetailsDAO = /*#__PURE__*/function () {
             page,
             _ref$carsPerPage,
             carsPerPage,
+            matchStage,
+            sortStage,
+            facetBrands,
+            facetBrandsModels,
+            countingPipeline,
+            countingPipelineBrandAndModel,
+            results,
+            resultsBrandsAndModel,
             cars,
             _args5 = arguments;
 
@@ -224,13 +238,79 @@ var carsDetailsDAO = /*#__PURE__*/function () {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _ref = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : {}, _ref$filters = _ref.filters, filters = _ref$filters === void 0 ? {} : _ref$filters, _ref$page = _ref.page, page = _ref$page === void 0 ? 1 : _ref$page, _ref$carsPerPage = _ref.carsPerPage, carsPerPage = _ref$carsPerPage === void 0 ? 50 : _ref$carsPerPage;
+                _ref = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : {}, _ref$filters = _ref.filters, filters = _ref$filters === void 0 ? {} : _ref$filters, _ref$page = _ref.page, page = _ref$page === void 0 ? 1 : _ref$page, _ref$carsPerPage = _ref.carsPerPage, carsPerPage = _ref$carsPerPage === void 0 ? 20 : _ref$carsPerPage;
                 filters = {
                   'priceRating.rating': 'VERY_GOOD_PRICE',
+                  'price.grs.amount': {
+                    '$exists': 1
+                  },
                   'discarded': false
                 };
-                _context5.prev = 2;
-                _context5.next = 5;
+                matchStage = {
+                  $match: filters
+                };
+                sortStage = {
+                  $sort: {
+                    "timeStamp": -1
+                  }
+                };
+                facetBrands = {
+                  '$facet': {
+                    'categorizedByBrand': [{
+                      '$group': {
+                        '_id': '$makeKey',
+                        'count': {
+                          '$sum': 1
+                        }
+                      }
+                    }, {
+                      '$sort': {
+                        'count': -1
+                      }
+                    }]
+                  }
+                };
+                facetBrandsModels = {
+                  '$facet': {
+                    'categorizedByBrandAndModel': [{
+                      '$group': {
+                        '_id': {
+                          'make': '$make.localized',
+                          'model': '$model.localized'
+                        },
+                        'count': {
+                          '$sum': 1
+                        }
+                      }
+                    }, {
+                      '$sort': {
+                        'count': -1
+                      }
+                    }]
+                  }
+                };
+                countingPipeline = [matchStage, sortStage, facetBrands];
+                countingPipelineBrandAndModel = [matchStage, sortStage, facetBrandsModels];
+                _context5.prev = 8;
+                _context5.next = 11;
+                return carsDetails.aggregate(countingPipeline);
+
+              case 11:
+                _context5.next = 13;
+                return _context5.sent.next();
+
+              case 13:
+                results = _context5.sent;
+                _context5.next = 16;
+                return carsDetails.aggregate(countingPipelineBrandAndModel);
+
+              case 16:
+                _context5.next = 18;
+                return _context5.sent.next();
+
+              case 18:
+                resultsBrandsAndModel = _context5.sent;
+                _context5.next = 21;
                 return carsDetails.find(filters).sort({
                   $natural: -1
                 }).skip((page - 1) * carsPerPage).limit(carsPerPage).project({
@@ -239,24 +319,27 @@ var carsDetailsDAO = /*#__PURE__*/function () {
                   attributes: 1,
                   url: 1,
                   id: 1,
-                  make: 1
+                  make: 1,
+                  images: 1
                 }).toArray();
 
-              case 5:
+              case 21:
                 cars = _context5.sent;
-                return _context5.abrupt("return", cars);
+                return _context5.abrupt("return", _objectSpread(_objectSpread({
+                  cars: cars
+                }, resultsBrandsAndModel), results));
 
-              case 9:
-                _context5.prev = 9;
-                _context5.t0 = _context5["catch"](2);
+              case 25:
+                _context5.prev = 25;
+                _context5.t0 = _context5["catch"](8);
                 return _context5.abrupt("return", _context5.t0.message);
 
-              case 12:
+              case 28:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[2, 9]]);
+        }, _callee5, null, [[8, 25]]);
       }));
 
       function getVehicles() {
