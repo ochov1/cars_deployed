@@ -1,27 +1,19 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
 var _adsDao = _interopRequireDefault(require("../DAO/adsDao.js"));
-
 var AdsController = /*#__PURE__*/function () {
   function AdsController() {
     (0, _classCallCheck2["default"])(this, AdsController);
   }
-
   (0, _createClass2["default"])(AdsController, null, [{
     key: "insertNewAd",
     value:
@@ -43,10 +35,8 @@ var AdsController = /*#__PURE__*/function () {
                 };
                 _context.next = 3;
                 return _adsDao["default"].insertOne(ad);
-
               case 3:
                 return _context.abrupt("return", _context.sent);
-
               case 4:
               case "end":
                 return _context.stop();
@@ -54,18 +44,15 @@ var AdsController = /*#__PURE__*/function () {
           }
         }, _callee);
       }));
-
       function insertNewAd(_x) {
         return _insertNewAd.apply(this, arguments);
       }
-
       return insertNewAd;
     }()
     /**
      * @param {object} ad
      * @returns {Promise<void>}
      */
-
   }, {
     key: "updateAd",
     value: function () {
@@ -80,15 +67,12 @@ var AdsController = /*#__PURE__*/function () {
           }
         }, _callee2);
       }));
-
       function updateAd(_x2) {
         return _updateAd.apply(this, arguments);
       }
-
       return updateAd;
     }()
   }]);
   return AdsController;
 }();
-
 exports["default"] = AdsController;

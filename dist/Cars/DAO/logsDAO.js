@@ -1,28 +1,20 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
 var logs;
 var mobile;
-
 var LogsDAO = /*#__PURE__*/function () {
   function LogsDAO() {
     (0, _classCallCheck2["default"])(this, LogsDAO);
   }
-
   (0, _createClass2["default"])(LogsDAO, null, [{
     key: "injectDB",
     value: function () {
@@ -35,29 +27,23 @@ var LogsDAO = /*#__PURE__*/function () {
                   _context.next = 2;
                   break;
                 }
-
                 return _context.abrupt("return");
-
               case 2:
                 _context.prev = 2;
                 _context.next = 5;
                 return conn.db(process.env.DB_NAME);
-
               case 5:
                 mobile = _context.sent;
                 _context.next = 8;
                 return conn.db(process.env.DB_NAME).collection("logs");
-
               case 8:
                 logs = _context.sent;
                 _context.next = 14;
                 break;
-
               case 11:
                 _context.prev = 11;
                 _context.t0 = _context["catch"](2);
                 console.error("Unable to establish a collection handle in Mobile: ".concat(_context.t0));
-
               case 14:
               case "end":
                 return _context.stop();
@@ -65,11 +51,9 @@ var LogsDAO = /*#__PURE__*/function () {
           }
         }, _callee, null, [[2, 11]]);
       }));
-
       function injectDB(_x) {
         return _injectDB.apply(this, arguments);
       }
-
       return injectDB;
     }()
     /**
@@ -77,7 +61,6 @@ var LogsDAO = /*#__PURE__*/function () {
      * @param {Object} log
      * @returns {Promise<void>}
      */
-
   }, {
     key: "postLogs",
     value: function () {
@@ -88,10 +71,8 @@ var LogsDAO = /*#__PURE__*/function () {
               case 0:
                 _context2.next = 2;
                 return logs.insertOne(log);
-
               case 2:
                 return _context2.abrupt("return", _context2.sent);
-
               case 3:
               case "end":
                 return _context2.stop();
@@ -99,11 +80,9 @@ var LogsDAO = /*#__PURE__*/function () {
           }
         }, _callee2);
       }));
-
       function postLogs(_x2) {
         return _postLogs.apply(this, arguments);
       }
-
       return postLogs;
     }()
     /**
@@ -115,7 +94,6 @@ var LogsDAO = /*#__PURE__*/function () {
      * @param result
      * @returns {Promise<{date: Date, result, session, action, description, user}>}
      */
-
   }, {
     key: "composeLog",
     value: function () {
@@ -132,7 +110,6 @@ var LogsDAO = /*#__PURE__*/function () {
                   date: new Date(),
                   result: result
                 });
-
               case 1:
               case "end":
                 return _context3.stop();
@@ -140,15 +117,12 @@ var LogsDAO = /*#__PURE__*/function () {
           }
         }, _callee3);
       }));
-
       function composeLog(_x3, _x4, _x5, _x6, _x7) {
         return _composeLog.apply(this, arguments);
       }
-
       return composeLog;
     }()
   }]);
   return LogsDAO;
 }();
-
 exports["default"] = LogsDAO;

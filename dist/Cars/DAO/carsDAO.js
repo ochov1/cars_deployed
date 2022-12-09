@@ -1,28 +1,20 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
 var mobile;
 var cars;
-
 var MobileDAO = /*#__PURE__*/function () {
   function MobileDAO() {
     (0, _classCallCheck2["default"])(this, MobileDAO);
   }
-
   (0, _createClass2["default"])(MobileDAO, null, [{
     key: "injectDB",
     value: function () {
@@ -35,24 +27,19 @@ var MobileDAO = /*#__PURE__*/function () {
                   _context.next = 2;
                   break;
                 }
-
                 return _context.abrupt("return");
-
               case 2:
                 _context.prev = 2;
                 _context.next = 5;
                 return conn.db(process.env.DB_NAME).collection("cars");
-
               case 5:
                 cars = _context.sent;
                 _context.next = 11;
                 break;
-
               case 8:
                 _context.prev = 8;
                 _context.t0 = _context["catch"](2);
                 console.error("Unable to establish a collection handle in Mobile: ".concat(_context.t0));
-
               case 11:
               case "end":
                 return _context.stop();
@@ -60,11 +47,9 @@ var MobileDAO = /*#__PURE__*/function () {
           }
         }, _callee, null, [[2, 8]]);
       }));
-
       function injectDB(_x) {
         return _injectDB.apply(this, arguments);
       }
-
       return injectDB;
     }()
   }, {
@@ -81,11 +66,9 @@ var MobileDAO = /*#__PURE__*/function () {
           }
         }, _callee2);
       }));
-
       function addCarsBulk() {
         return _addCarsBulk.apply(this, arguments);
       }
-
       return addCarsBulk;
     }()
     /**
@@ -93,7 +76,6 @@ var MobileDAO = /*#__PURE__*/function () {
      * @param {Object} car
      * @returns {DAOResponse}
      */
-
   }, {
     key: "addCar",
     value: function () {
@@ -106,30 +88,23 @@ var MobileDAO = /*#__PURE__*/function () {
                 _context3.prev = 0;
                 _context3.next = 3;
                 return this.findOneByCustomAdId(car['adID']);
-
               case 3:
                 existCar = _context3.sent;
-
                 if (existCar) {
                   _context3.next = 10;
                   break;
                 }
-
                 _context3.next = 7;
                 return cars.insertOne(car);
-
               case 7:
                 return _context3.abrupt("return", _context3.sent);
-
               case 10:
                 return _context3.abrupt("return", {
                   error: "exist"
                 });
-
               case 11:
                 _context3.next = 17;
                 break;
-
               case 13:
                 _context3.prev = 13;
                 _context3.t0 = _context3["catch"](0);
@@ -137,7 +112,6 @@ var MobileDAO = /*#__PURE__*/function () {
                 return _context3.abrupt("return", {
                   error: _context3.t0
                 });
-
               case 17:
               case "end":
                 return _context3.stop();
@@ -145,11 +119,9 @@ var MobileDAO = /*#__PURE__*/function () {
           }
         }, _callee3, this, [[0, 13]]);
       }));
-
       function addCar(_x2) {
         return _addCar.apply(this, arguments);
       }
-
       return addCar;
     }()
   }, {
@@ -170,10 +142,8 @@ var MobileDAO = /*#__PURE__*/function () {
                 }, {
                   multi: true
                 });
-
               case 2:
                 return _context4.abrupt("return", _context4.sent);
-
               case 3:
               case "end":
                 return _context4.stop();
@@ -181,11 +151,9 @@ var MobileDAO = /*#__PURE__*/function () {
           }
         }, _callee4);
       }));
-
       function removeCars(_x3) {
         return _removeCars.apply(this, arguments);
       }
-
       return removeCars;
     }()
   }, {
@@ -193,17 +161,16 @@ var MobileDAO = /*#__PURE__*/function () {
     value: function () {
       var _getCars = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5() {
         var _ref,
-            _ref$filters,
-            filters,
-            _ref$page,
-            page,
-            _ref$carsPerPage,
-            carsPerPage,
-            hCars,
-            pipeline,
-            updatePrints,
-            _args5 = arguments;
-
+          _ref$filters,
+          filters,
+          _ref$page,
+          page,
+          _ref$carsPerPage,
+          carsPerPage,
+          hCars,
+          pipeline,
+          updatePrints,
+          _args5 = arguments;
         return _regenerator["default"].wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -250,15 +217,12 @@ var MobileDAO = /*#__PURE__*/function () {
                 }];
                 _context5.next = 8;
                 return cars.aggregate(pipeline).toArray();
-
               case 8:
                 hCars = _context5.sent;
-
                 if (!(hCars.length !== 0)) {
                   _context5.next = 13;
                   break;
                 }
-
                 updatePrints = hCars.map(function (vehicles) {
                   return {
                     updateOne: {
@@ -275,15 +239,12 @@ var MobileDAO = /*#__PURE__*/function () {
                 });
                 _context5.next = 13;
                 return cars.bulkWrite(updatePrints);
-
               case 13:
                 return _context5.abrupt("return", hCars);
-
               case 16:
                 _context5.prev = 16;
                 _context5.t0 = _context5["catch"](4);
                 console.log(_context5.t0);
-
               case 19:
               case "end":
                 return _context5.stop();
@@ -291,11 +252,9 @@ var MobileDAO = /*#__PURE__*/function () {
           }
         }, _callee5, null, [[4, 16]]);
       }));
-
       function getCars() {
         return _getCars.apply(this, arguments);
       }
-
       return getCars;
     }()
     /**
@@ -303,7 +262,6 @@ var MobileDAO = /*#__PURE__*/function () {
      * @param adId
      * @returns {Promise<*|{error}>}
      */
-
   }, {
     key: "findOneByCustomAdId",
     value: function () {
@@ -321,10 +279,8 @@ var MobileDAO = /*#__PURE__*/function () {
                 }];
                 _context6.next = 4;
                 return cars.aggregate(pipeline).next();
-
               case 4:
                 return _context6.abrupt("return", _context6.sent);
-
               case 7:
                 _context6.prev = 7;
                 _context6.t0 = _context6["catch"](0);
@@ -332,7 +288,6 @@ var MobileDAO = /*#__PURE__*/function () {
                 return _context6.abrupt("return", {
                   error: _context6.t0
                 });
-
               case 11:
               case "end":
                 return _context6.stop();
@@ -340,18 +295,15 @@ var MobileDAO = /*#__PURE__*/function () {
           }
         }, _callee6, null, [[0, 7]]);
       }));
-
       function findOneByCustomAdId(_x4) {
         return _findOneByCustomAdId.apply(this, arguments);
       }
-
       return findOneByCustomAdId;
     }()
     /**
      *
      * @returns {Promise<*|{error}>}
      */
-
   }, {
     key: "fetchAllAds",
     value: function () {
@@ -368,10 +320,8 @@ var MobileDAO = /*#__PURE__*/function () {
                     $natural: -1
                   }
                 }).limit(200).toArray();
-
               case 3:
                 return _context7.abrupt("return", _context7.sent);
-
               case 6:
                 _context7.prev = 6;
                 _context7.t0 = _context7["catch"](0);
@@ -379,7 +329,6 @@ var MobileDAO = /*#__PURE__*/function () {
                 return _context7.abrupt("return", {
                   error: _context7.t0
                 });
-
               case 10:
               case "end":
                 return _context7.stop();
@@ -387,11 +336,9 @@ var MobileDAO = /*#__PURE__*/function () {
           }
         }, _callee7, null, [[0, 6]]);
       }));
-
       function fetchAllAds() {
         return _fetchAllAds.apply(this, arguments);
       }
-
       return fetchAllAds;
     }()
     /**
@@ -399,7 +346,6 @@ var MobileDAO = /*#__PURE__*/function () {
      * @param {Array} carsArray
      * @returns {Promise<void>}
      */
-
   }, {
     key: "removeMultipleCars",
     value: function () {
@@ -442,11 +388,9 @@ var MobileDAO = /*#__PURE__*/function () {
                 return _context8.abrupt("return", cars.bulkWrite(carsArray, {
                   ordered: false
                 }));
-
               case 5:
                 _context8.prev = 5;
                 _context8.t0 = _context8["catch"](0);
-
               case 7:
               case "end":
                 return _context8.stop();
@@ -454,11 +398,9 @@ var MobileDAO = /*#__PURE__*/function () {
           }
         }, _callee8, null, [[0, 5]]);
       }));
-
       function removeMultipleCars(_x5) {
         return _removeMultipleCars.apply(this, arguments);
       }
-
       return removeMultipleCars;
     }()
   }]);
@@ -470,7 +412,6 @@ var MobileDAO = /*#__PURE__*/function () {
  * @property {boolean} [success] - Success
  * @property {string} [error] - Error
  */
-
 /**
  *A car from cars
  *@typedef CarsCtrl
@@ -491,7 +432,6 @@ var MobileDAO = /*#__PURE__*/function () {
  * @property {Date} date
  * @property {Handler} handler
  */
-
 /**
  * The handler
  * @typedef Handler
@@ -505,6 +445,4 @@ var MobileDAO = /*#__PURE__*/function () {
  * @property {string} mobilePhoneNumber
  * @property {string} webPage
  */
-
-
 exports["default"] = MobileDAO;

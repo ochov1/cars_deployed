@@ -1,27 +1,19 @@
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
-
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
-
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
-
 var _logsDAO = _interopRequireDefault(require("../DAO/logsDAO.js"));
-
 var LogsController = /*#__PURE__*/function () {
   function LogsController() {
     (0, _classCallCheck2["default"])(this, LogsController);
   }
-
   (0, _createClass2["default"])(LogsController, null, [{
     key: "getLogs",
     value: function () {
@@ -34,7 +26,6 @@ var LogsController = /*#__PURE__*/function () {
                 return res.json({
                   route: "route"
                 });
-
               case 2:
               case "end":
                 return _context.stop();
@@ -42,11 +33,9 @@ var LogsController = /*#__PURE__*/function () {
           }
         }, _callee);
       }));
-
       function getLogs(_x, _x2) {
         return _getLogs.apply(this, arguments);
       }
-
       return getLogs;
     }()
   }, {
@@ -59,10 +48,8 @@ var LogsController = /*#__PURE__*/function () {
               case 0:
                 _context2.next = 2;
                 return _logsDAO["default"].postLogs(log);
-
               case 2:
                 return _context2.abrupt("return", _context2.sent);
-
               case 3:
               case "end":
                 return _context2.stop();
@@ -70,15 +57,12 @@ var LogsController = /*#__PURE__*/function () {
           }
         }, _callee2);
       }));
-
       function postLog(_x3) {
         return _postLog.apply(this, arguments);
       }
-
       return postLog;
     }()
   }]);
   return LogsController;
 }();
-
 exports["default"] = LogsController;
