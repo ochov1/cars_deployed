@@ -186,18 +186,23 @@ var carsDetailsDAO = /*#__PURE__*/function () {
           matchStage,
           sortStage,
           facetBrands,
+          facetFuels,
           facetBrandsModels,
           countingPipeline,
           countingPipelineBrandAndModel,
+          countingPipelineFuel,
+          countingTotalCars,
           results,
           resultsBrandsAndModel,
+          resultsFuel,
+          totalCars,
           cars,
           _args5 = arguments;
         return _regenerator["default"].wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _ref = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : {}, _ref$filters = _ref.filters, filters = _ref$filters === void 0 ? {} : _ref$filters, _ref$page = _ref.page, page = _ref$page === void 0 ? 1 : _ref$page, _ref$carsPerPage = _ref.carsPerPage, carsPerPage = _ref$carsPerPage === void 0 ? 20 : _ref$carsPerPage, _ref$query = _ref.query, query = _ref$query === void 0 ? null : _ref$query;
+                _ref = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : {}, _ref$filters = _ref.filters, filters = _ref$filters === void 0 ? {} : _ref$filters, _ref$page = _ref.page, page = _ref$page === void 0 ? 1 : _ref$page, _ref$carsPerPage = _ref.carsPerPage, carsPerPage = _ref$carsPerPage === void 0 ? '20' : _ref$carsPerPage, _ref$query = _ref.query, query = _ref$query === void 0 ? null : _ref$query;
                 filters = {
                   'priceRating.rating': 'VERY_GOOD_PRICE',
                   'price.grs.amount': {
@@ -230,6 +235,31 @@ var carsDetailsDAO = /*#__PURE__*/function () {
                     }]
                   }
                 };
+                facetFuels = [{
+                  '$match': {
+                    'attributes.label': 'Fuel'
+                  }
+                }, {
+                  '$unwind': {
+                    'path': '$attributes'
+                  }
+                }, {
+                  '$match': {
+                    'attributes.label': 'Fuel'
+                  }
+                }, {
+                  '$facet': {
+                    'categorizedByFuel': [{
+                      '$group': {
+                        '_id': '$attributes.value'
+                      }
+                    }, {
+                      '$sort': {
+                        'count': -1
+                      }
+                    }]
+                  }
+                }];
                 facetBrandsModels = {
                   '$facet': {
                     'categorizedByBrandAndModel': [{
@@ -251,25 +281,43 @@ var carsDetailsDAO = /*#__PURE__*/function () {
                 };
                 countingPipeline = [matchStage, sortStage, facetBrands];
                 countingPipelineBrandAndModel = [matchStage, sortStage, facetBrandsModels];
-                _context5.prev = 9;
-                _context5.next = 12;
+                countingPipelineFuel = [matchStage, sortStage].concat(facetFuels);
+                countingTotalCars = [matchStage, {
+                  '$count': 'totalCars'
+                }];
+                _context5.prev = 12;
+                _context5.next = 15;
                 return carsDetails.aggregate(countingPipeline);
-              case 12:
-                _context5.next = 14;
-                return _context5.sent.next();
-              case 14:
-                results = _context5.sent;
+              case 15:
                 _context5.next = 17;
-                return carsDetails.aggregate(countingPipelineBrandAndModel);
-              case 17:
-                _context5.next = 19;
                 return _context5.sent.next();
-              case 19:
-                resultsBrandsAndModel = _context5.sent;
+              case 17:
+                results = _context5.sent;
+                _context5.next = 20;
+                return carsDetails.aggregate(countingPipelineBrandAndModel);
+              case 20:
                 _context5.next = 22;
+                return _context5.sent.next();
+              case 22:
+                resultsBrandsAndModel = _context5.sent;
+                _context5.next = 25;
+                return carsDetails.aggregate(countingPipelineFuel);
+              case 25:
+                _context5.next = 27;
+                return _context5.sent.next();
+              case 27:
+                resultsFuel = _context5.sent;
+                _context5.next = 30;
+                return carsDetails.aggregate(countingTotalCars);
+              case 30:
+                _context5.next = 32;
+                return _context5.sent.next();
+              case 32:
+                totalCars = _context5.sent;
+                _context5.next = 35;
                 return carsDetails.find(filters).sort({
                   $natural: -1
-                }).skip((page - 1) * carsPerPage).limit(carsPerPage).project({
+                }).skip((page - 1) * parseInt(carsPerPage)).limit(parseInt(carsPerPage)).project({
                   price: 1,
                   title: 1,
                   attributes: 1,
@@ -278,21 +326,22 @@ var carsDetailsDAO = /*#__PURE__*/function () {
                   make: 1,
                   images: 1
                 }).toArray();
-              case 22:
+              case 35:
                 cars = _context5.sent;
-                return _context5.abrupt("return", _objectSpread(_objectSpread({
+                return _context5.abrupt("return", _objectSpread(_objectSpread(_objectSpread(_objectSpread({
                   cars: cars
-                }, resultsBrandsAndModel), results));
-              case 26:
-                _context5.prev = 26;
-                _context5.t0 = _context5["catch"](9);
+                }, resultsBrandsAndModel), results), resultsFuel), totalCars));
+              case 39:
+                _context5.prev = 39;
+                _context5.t0 = _context5["catch"](12);
+                console.log(_context5.t0.message);
                 return _context5.abrupt("return", _context5.t0.message);
-              case 29:
+              case 43:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[9, 26]]);
+        }, _callee5, null, [[12, 39]]);
       }));
       function getVehicles() {
         return _getVehicles.apply(this, arguments);
